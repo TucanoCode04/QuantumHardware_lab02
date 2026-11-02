@@ -1,4 +1,4 @@
-from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister
+from qiskit import QuantumCircuit, QuantumRegister
 
 names = ["a0", "a1", "b0", "b1", "s0", "c1", "s1", "s2"]
 
@@ -30,14 +30,10 @@ print(qc.draw(plot_barriers=False))
 
 from qiskit.providers.basic_provider import BasicProvider
 
-# Basic simulation: measure the sum S = s2 s1 s0
-s = ClassicalRegister(3, "s")
-qc.add_register(s)
-qc.measure([4, 6, 7], s)
+# Basic simulation
+qc.measure_all()
 
 backend = BasicProvider().get_backend("basic_simulator")
 result = backend.run(qc).result()
 
-counts = result.get_counts()
-print(counts)
-print("A + B =", int(max(counts, key=counts.get), 2))
+print(result.get_counts())
